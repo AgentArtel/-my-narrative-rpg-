@@ -1,0 +1,208 @@
+/* 
+    Artelio RPG - Modern Fantasy Theme
+    Mobile-First Responsive Design
+*/
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
+
+// Breakpoints
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 1024px;
+
+// Base Spacing
+$base-margin: 20px;
+$base-padding: 24px;
+$double-margin: 40px;
+
+// Responsive Spacing Variables
+$window-padding: clamp(12px, 3vw, $base-padding);
+$window-margin: clamp(10px, 2vw, $base-margin);
+
+// Window Dimensions
+$window-max-width: calc(100% - #{$double-margin});
+$window-max-height: calc(100% - #{$double-margin});
+
+// Responsive Font Sizes
+$base-font-size: clamp(16px, 4vw, 22px);
+$small-font-size: clamp(14px, 3.5vw, 18px);
+$large-font-size: clamp(18px, 4.5vw, 26px);
+
+// Menu Item Styles
+$menu-item-hover: rgba(255, 255, 255, 0.1);
+$menu-item-active: rgba(255, 255, 255, 0.2);
+
+// Window Styles
+$window-background: linear-gradient(135deg, 
+    rgba(28, 27, 51, 0.7) 0%,
+    rgba(69, 65, 119, 0.7) 50%,
+    rgba(87, 83, 148, 0.7) 100%
+);
+$window-border: 2px solid rgba(255, 255, 255, 0.2);
+$window-border-radius: clamp(8px, 2vw, 12px);
+$window-arrow-color: rgba(255, 255, 255, 0.9);
+$window-font-size: $base-font-size;
+$window-font-color: rgba(255, 255, 255, 0.95);
+$window-font-family: 'Quicksand', sans-serif;
+
+// Cursor Styles
+$cursor-background: rgba(255, 255, 255, 0.15);
+$cursor-border: 2px solid rgba(255, 255, 255, 0.4);
+
+// Animation Keyframes
+@keyframes window-appear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cursor-pulse {
+    0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+}
+
+// Custom Mixins
+@mixin window-content {
+    backdrop-filter: blur(8px);
+    animation: window-appear 0.3s ease-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    
+    // Window positioning and sizing
+    max-width: $window-max-width;
+    max-height: $window-max-height;
+    margin: $window-margin;
+    padding: $window-padding;
+    
+    // Improved text readability
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.3px;
+    line-height: 1.5;
+    
+    // Mobile touch optimization
+    @media (max-width: $mobile) {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    // Inner window glow
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: $window-border-radius;
+        background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 100%
+        );
+        pointer-events: none;
+    }
+}
+
+// Message Window Specific
+.message-window {
+    position: relative;
+    bottom: $window-margin;
+    left: $window-margin;
+    right: $window-margin;
+    max-height: clamp(25%, 30vh, 30%);
+    overflow-y: auto;
+    font-size: $base-font-size;
+    
+    @media (max-width: $mobile) {
+        bottom: env(safe-area-inset-bottom, $window-margin);
+        max-height: 40%;
+        padding-bottom: max(env(safe-area-inset-bottom), $window-padding);
+    }
+    
+    // Hide scrollbar but keep functionality
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+    
+    // Touch-friendly scrolling
+    -webkit-overflow-scrolling: touch;
+}
+
+// Choice Windows
+.choice-window {
+    padding: $window-padding;
+    margin: $window-margin;
+    max-width: min(80%, 500px);
+    
+    @media (max-width: $mobile) {
+        max-width: calc(100% - #{$double-margin});
+        margin-bottom: max(env(safe-area-inset-bottom), $base-margin);
+    }
+    
+    // Center choices
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(8px, 2vh, 16px);
+    
+    // Touch-friendly choices
+    .choice-item {
+        width: 100%;
+        min-height: 44px;
+        padding: clamp(8px, 2vh, 12px);
+        
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+}
+
+// Menu Items
+.menu-item {
+    min-height: 44px;
+    padding: clamp(8px, 2vh, 12px);
+    margin-bottom: clamp(4px, 1vh, 8px);
+    
+    @media (max-width: $mobile) {
+        &:active {
+            background: $menu-item-active;
+        }
+    }
+}
+
+// Battle Window Specific
+.battle-window {
+    @media (max-width: $mobile) {
+        font-size: $small-font-size;
+        padding: calc($window-padding * 0.8);
+    }
+    
+    .battle-command {
+        min-height: 44px;
+        padding: clamp(10px, 2.5vh, 15px);
+    }
+}
+
+// Status Effects
+.status-effect {
+    font-size: $small-font-size;
+    
+    @media (max-width: $mobile) {
+        padding: calc($window-padding * 0.7);
+    }
+    
+    &.positive { color: #00ff9d; }
+    &.negative { color: #ff6b6b; }
+}
+
+// Custom Classes
+.important-text {
+    color: #ffd700;
+    font-weight: 500;
+}
+
+// Selection Cursor
+.rpgjs-cursor {
+    animation: cursor-pulse 1.5s infinite;
+    transition: all 0.2s ease;
+}
